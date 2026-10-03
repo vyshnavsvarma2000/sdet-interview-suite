@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://vyshnavsvarma2000.github.io/sdet-interview-suite/sitemap.xml
