@@ -2,7 +2,7 @@
 
 **[Open the tool →](https://vyshnavsvarma2000.github.io/sdet-interview-suite/)**
 
-93 SDET interview questions with worked answers and runnable code. Free, no signup, no tracking.
+SDET interview questions with worked answers and runnable code. Free, no signup, no tracking.
 
 ## What's in it
 
@@ -24,7 +24,7 @@
 | Security testing | 4 |
 | Mobile testing | 3 |
 
-Every question is tagged **Fundamentals**, **Core** or **Advanced**, so it works whether you're interviewing for your first QA role or a senior SDET position.
+The set grows over time. Every question is tagged **Fundamentals**, **Core** or **Advanced**, so it works whether you're interviewing for your first QA role or a senior SDET position.
 
 ## Why it's not just a list
 
