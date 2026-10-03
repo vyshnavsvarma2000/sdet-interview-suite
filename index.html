@@ -33,7 +33,7 @@
   --surface-2:#EEF2F6;
   --ink:#16222E;
   --ink-soft:#54646F;
-  --ink-faint:#8495A1;
+  --ink-faint:#5D6C78;
   --rule:#D7DFE6;
   --verify:#12706B;
   --verify-soft:#D6EBE9;
@@ -53,7 +53,7 @@
     --surface-2:#1A2833;
     --ink:#E6EDF2;
     --ink-soft:#9FB0BC;
-    --ink-faint:#6C7F8C;
+    --ink-faint:#7B8E9B;
     --rule:#243442;
     --verify:#4FC4BB;
     --verify-soft:#12332F;
@@ -70,7 +70,7 @@
   --surface-2:#1A2833;
   --ink:#E6EDF2;
   --ink-soft:#9FB0BC;
-  --ink-faint:#6C7F8C;
+  --ink-faint:#7B8E9B;
   --rule:#243442;
   --verify:#4FC4BB;
   --verify-soft:#12332F;
@@ -260,7 +260,7 @@ footer p{margin:0 0 10px;max-width:66ch}
   <div class="wrap">
     <p class="kicker">A working set for Software Development Engineers in Test</p>
     <h1>The SDET Interview Suite</h1>
-    <p class="standfirst"><span id="headCount">Ninety-six</span> questions that actually get asked, with worked answers and code you can run. Mark what you know, flag what you don't, and come back to the gaps.</p>
+    <p class="standfirst"><span id="headCount">Dozens of</span> questions that actually get asked, with worked answers and code you can run. Mark what you know, flag what you don't, and come back to the gaps.</p>
     <p class="byline">
       Compiled by <a href="https://www.linkedin.com/in/vyshnav-s-varma" target="_blank" rel="noopener">Vyshnav S Varma</a>
       <span>Python · Pytest · Selenium · Playwright · JMeter · Azure DevOps</span>
@@ -2766,7 +2766,14 @@ function enhanceCode(root){
 
 /* ---------------- render ---------------- */
 const CATS = [...new Set(DATA.map(d => d.c))];
-const KEY = "sdet-suite-marks-v1";
+const KEY = "sdet-suite-marks-v2";
+function qhash(s){let h=0;for(let i=0;i<s.length;i++){h=((h<<5)-h+s.charCodeAt(i))|0;}return "q"+(h>>>0).toString(36);}
+const QID = DATA.map(d => qhash(d.q));
+const HAY = DATA.map(d => {
+  const plain = d.a.replace(/<[^>]+>/g, " ")
+                   .replace(/&lt;/g,"<").replace(/&gt;/g,">").replace(/&amp;/g,"&").replace(/&nbsp;/g," ");
+  return (d.q + " " + plain + " " + d.c + " " + d.l).replace(/\s+/g," ").toLowerCase();
+});
 const WORDS = ["Zero","One","Two","Three","Four","Five","Six","Seven","Eight","Nine","Ten",
   "Eleven","Twelve","Thirteen","Fourteen","Fifteen","Sixteen","Seventeen","Eighteen","Nineteen","Twenty"];
 function spell(n){
@@ -2830,9 +2837,9 @@ const levelsEl = document.getElementById("levels");
 function matches(d, i){
   if (activeCat !== "All" && d.c !== activeCat) return false;
   if (activeLevel !== "Any level" && d.l !== activeLevel) return false;
-  if (onlyRevisit && marks[i] !== "revisit") return false;
+  if (onlyRevisit && marks[QID[i]] !== "revisit") return false;
   if (query){
-    const hay = (d.q + " " + d.a + " " + d.c + " " + d.l).toLowerCase();
+    const hay = HAY[i];
     if (!hay.includes(query)) return false;
   }
   return true;
@@ -2857,7 +2864,7 @@ function render(){
     const wrap = document.createElement("article");
     wrap.className = "q";
     wrap.dataset.id = i;
-    if (marks[i]) wrap.dataset.mark = marks[i];
+    if (marks[QID[i]]) wrap.dataset.mark = marks[QID[i]];
     if (open.has(String(i))) wrap.classList.add("open");
 
     const head = document.createElement("div");
@@ -2918,10 +2925,10 @@ function render(){
       m.className = "mark " + cls;
       m.textContent = label;
       const val = cls === "ok" ? "ok" : "revisit";
-      m.setAttribute("aria-pressed", marks[i] === val ? "true" : "false");
+      m.setAttribute("aria-pressed", marks[QID[i]] === val ? "true" : "false");
       m.addEventListener("click", () => {
-        marks[i] = marks[i] === val ? undefined : val;
-        if (!marks[i]) delete marks[i];
+        marks[QID[i]] = marks[QID[i]] === val ? undefined : val;
+        if (!marks[QID[i]]) delete marks[QID[i]];
         persist(); render(); updateMeter();
       });
       marksRow.appendChild(m);
@@ -2959,7 +2966,7 @@ function renderTopics(){
   box.innerHTML = "";
   CATS.forEach(cat => {
     const idxs = DATA.map((d,i) => d.c === cat ? i : -1).filter(i => i >= 0);
-    const done = idxs.filter(i => marks[i] === "ok").length;
+    const done = idxs.filter(i => marks[QID[i]] === "ok").length;
     const row = document.createElement("div");
     row.className = "topic-row";
     const name = document.createElement("span");
@@ -3005,7 +3012,7 @@ document.getElementById("themeBtn").addEventListener("click", () => {
   document.documentElement.setAttribute("data-theme", next);
 });
 document.getElementById("randomBtn").addEventListener("click", () => {
-  const pool = DATA.map((d,i) => i).filter(i => marks[i] !== "ok");
+  const pool = DATA.map((d,i) => i).filter(i => marks[QID[i]] !== "ok");
   const pick = (pool.length ? pool : DATA.map((d,i) => i))[Math.floor(Math.random() * (pool.length || DATA.length))];
   activeCat = "All"; activeLevel = "Any level"; onlyRevisit = false; query = "";
   document.getElementById("search").value = "";
@@ -3060,7 +3067,7 @@ document.addEventListener("keydown", e => {
   else if (e.key === "g" || e.key === "f"){
     if (cursor < 0 || !cards[cursor]) return;
     e.preventDefault();
-    const id = cards[cursor].dataset.id;
+    const id = QID[+cards[cursor].dataset.id];
     const val = e.key === "g" ? "ok" : "revisit";
     marks[id] = marks[id] === val ? undefined : val;
     if (!marks[id]) delete marks[id];
