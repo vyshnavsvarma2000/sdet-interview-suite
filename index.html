@@ -480,7 +480,7 @@ def is_anagram(a, b):
     a = a.replace(" ", "").lower()
     b = b.replace(" ", "").lower()
     return Counter(a) == Counter(b)</code></pre>
-<p>Counter comparison is O(n). Sorting both and comparing is O(n log n) and is the answer they expect you to <em>reject</em> when asked to optimise. Mention the Unicode caveat if you want to stand out: <code>"straße"</code> and <code>"strasse"</code> need normalising first.</p></article>
+<p>Counter comparison is O(n). Sorting both and comparing is O(n log n) and is the answer they expect you to <em>reject</em> when asked to optimise. Mention the Unicode caveat if you want to stand out: <code>.lower()</code> leaves <code>"ß"</code> alone, so <code>"straße"</code> and <code>"strasse"</code> compare unequal. <code>.casefold()</code> maps <code>"ß"</code> to <code>"ss"</code> and is the correct choice for caseless comparison.</p></article>
 <article class="ns-q"><h3>17. Remove duplicates from a list while preserving order.</h3><pre><code>def dedupe(items):
     seen = set()
     out = []
@@ -515,7 +515,8 @@ def retry(times=3, delay=1, on=(AssertionError,)):
                     return fn(*args, **kwargs)
                 except on as exc:
                     last = exc
-                    time.sleep(delay * (2 ** attempt))   # backoff
+                    if attempt &lt; times - 1:              # no sleep after the last try
+                        time.sleep(delay * (2 ** attempt))   # exponential backoff
             raise last
         return inner
     return wrapper
@@ -546,7 +547,7 @@ for claim in read_claims("5gb_export.txt"):
     return headers
 
 add_header("a")        # {'a': 'x'}
-add_header("b")        # {'a': 'x', 'b': 'x'}  <-- leaked
+add_header("b")        # {'a': 'x', 'b': 'x'}  &lt;-- leaked
 
 def add_header(name, headers=None):   # correct
     headers = {} if headers is None else headers
@@ -1621,7 +1622,7 @@ def is_anagram(a, b):
     a = a.replace(" ", "").lower()
     b = b.replace(" ", "").lower()
     return Counter(a) == Counter(b)</code></pre>
-<p>Counter comparison is O(n). Sorting both and comparing is O(n log n) and is the answer they expect you to <em>reject</em> when asked to optimise. Mention the Unicode caveat if you want to stand out: <code>"straße"</code> and <code>"strasse"</code> need normalising first.</p>`},
+<p>Counter comparison is O(n). Sorting both and comparing is O(n log n) and is the answer they expect you to <em>reject</em> when asked to optimise. Mention the Unicode caveat if you want to stand out: <code>.lower()</code> leaves <code>"ß"</code> alone, so <code>"straße"</code> and <code>"strasse"</code> compare unequal. <code>.casefold()</code> maps <code>"ß"</code> to <code>"ss"</code> and is the correct choice for caseless comparison.</p>`},
 
 {l:"Fundamentals",c:"Python",q:"Remove duplicates from a list while preserving order.",
 a:`<pre><code>def dedupe(items):
@@ -1662,7 +1663,8 @@ def retry(times=3, delay=1, on=(AssertionError,)):
                     return fn(*args, **kwargs)
                 except on as exc:
                     last = exc
-                    time.sleep(delay * (2 ** attempt))   # backoff
+                    if attempt &lt; times - 1:              # no sleep after the last try
+                        time.sleep(delay * (2 ** attempt))   # exponential backoff
             raise last
         return inner
     return wrapper
@@ -1699,7 +1701,7 @@ a:`<p>Default arguments are evaluated once, at function definition, not per call
     return headers
 
 add_header("a")        # {'a': 'x'}
-add_header("b")        # {'a': 'x', 'b': 'x'}  <-- leaked
+add_header("b")        # {'a': 'x', 'b': 'x'}  &lt;-- leaked
 
 def add_header(name, headers=None):   # correct
     headers = {} if headers is None else headers
