@@ -2,29 +2,32 @@
 
 **[Open the tool →](https://vyshnavsvarma2000.github.io/sdet-interview-suite/)**
 
-SDET interview questions with worked answers and runnable code. Free, no signup, no tracking.
+209 SDET interview questions with worked answers and runnable code. Free, no signup, no tracking.
+
+Every code sample is executed before it ships — the Python and pytest samples are run, the Java samples compiled, the SQL executed and the YAML parsed. If a snippet is here, it worked.
 
 ## What's in it
 
 | Topic | Questions |
 |---|---|
-| Framework design | 13 |
-| Python | 11 |
-| Testing fundamentals | 8 |
-| API testing | 7 |
-| Scenario & experience | 7 |
-| Test management | 7 |
-| UI automation | 6 |
-| Java & TestNG | 5 |
-| BDD, Git & tooling | 5 |
-| Performance | 5 |
-| CI/CD | 4 |
-| SQL & data | 4 |
-| Containers & environments | 4 |
-| Security testing | 4 |
-| Mobile testing | 3 |
+| Python & pytest | 39 |
+| UI automation | 23 |
+| API testing | 22 |
+| Framework design | 21 |
+| Java & TestNG | 13 |
+| Testing fundamentals | 12 |
+| Scenario & experience | 11 |
+| Test management | 11 |
+| Performance | 9 |
+| BDD, Git & tooling | 9 |
+| CI/CD | 8 |
+| SQL & data | 8 |
+| Containers & environments | 8 |
+| Security testing | 8 |
+| Mobile testing | 7 |
+| **Total** | **209** |
 
-The set grows over time. Every question is tagged **Fundamentals**, **Core** or **Advanced**, so it works whether you're interviewing for your first QA role or a senior SDET position.
+Every question is tagged **Fundamentals** (30), **Core** (99) or **Advanced** (80), so it works whether you're interviewing for your first QA role or a senior SDET position. The set grows over time.
 
 ## Why it's not just a list
 
@@ -50,6 +53,8 @@ No build step, no dependencies, no analytics.
 ## Contributing
 
 Found a question that should be here, or an answer that's wrong or incomplete? Open an issue or a pull request. All the content lives in the `DATA` array inside `index.html`.
+
+If you're adding a code sample, please run it first.
 
 ## Author
 
